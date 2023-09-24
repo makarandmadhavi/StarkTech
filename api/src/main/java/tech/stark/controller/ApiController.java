@@ -1,4 +1,4 @@
-package tech.stark;
+package tech.stark.controller;
 
 import io.micronaut.http.annotation.*;
 

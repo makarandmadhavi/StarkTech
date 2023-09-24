@@ -9,3 +9,17 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - 'tech.stark.domain'
+    properties:
+      hibernate:
+        show-sql: true
+        hbm2ddl:
+          auto: update
+        connection:
+          db-type: mysql
+    reactive: true
