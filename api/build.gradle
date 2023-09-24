@@ -27,6 +27,8 @@ dependencies {
 
     implementation 'io.projectreactor:reactor-core:3.5.10'
 
+    implementation("io.micronaut.sql:micronaut-vertx-mysql-client")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
