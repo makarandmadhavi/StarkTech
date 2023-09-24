@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: tech.stark
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, gradle, http-client, jackson-databind, java, java-application, junit, logback, lombok, micronaut-aot, micronaut-build, netty-server, openapi, readme, serialization-jackson, shade, swagger-ui, yaml, yaml-build]
