@@ -12,7 +12,7 @@ import jakarta.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
-public class HealthTest {
+public class HealthControllerTest {
 
     @Inject
     @Client("/")
@@ -20,7 +20,7 @@ public class HealthTest {
 
     @Test
     public void healthEndpointExposed() {
-        HttpStatus status = client.toBlocking().retrieve(HttpRequest.GET("/health"), HttpStatus.class);
+        HttpStatus status = client.toBlocking().retrieve(HttpRequest.GET("/healthz"), HttpStatus.class);
         assertEquals(HttpStatus.OK, status);
     }
 }

@@ -9,18 +9,15 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
-
-vertx:
-  mysql:
-    client:
-      port: 3306
-      host: localhost
-      database: db
-      user: user
-      password: password
-      maxSize: 5
-
-endpoints:
-  health:
-    jdbc:
-      enabled: true
+datasources:
+  hikari:
+    url: 'jdbc:mysql://localhost:3306'
+    username: sa
+    password: ''
+    driver-class-name: 'com.mysql.cj.jdbc.Driver'
+    connection-timeout: 2000
+    initialization-fail-timeout: -1
+netty:
+  default:
+    allocator:
+      max-order: 3
