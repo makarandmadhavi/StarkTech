@@ -1,7 +1,6 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.3"
-    id("io.micronaut.aot") version "4.0.3"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.7.10"
 }
 
 version = "0.1"
@@ -12,26 +11,23 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.openapi:micronaut-openapi")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.swagger.core.v3:swagger-annotations")
     implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("io.micronaut:micronaut-management")
+    implementation 'mysql:mysql-connector-java:5.1.13'
 
-    implementation("io.micronaut.data:micronaut-data-hibernate-reactive")
-    implementation("io.vertx:vertx-mysql-client")
-
-    implementation 'io.projectreactor:reactor-core:3.5.10'
-
-    implementation("io.micronaut.sql:micronaut-vertx-mysql-client")
-
-    compileOnly("org.projectlombok:lombok")
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.yaml:snakeyaml")
+    runtimeOnly("com.h2database:h2")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers")
 }
 
 
@@ -51,18 +47,14 @@ micronaut {
         incremental(true)
         annotations("tech.stark.*")
     }
-    aot {
-    // Please review carefully the optimizations enabled below
-    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
-        optimizeServiceLoading = false
-        convertYamlToJava = false
-        precomputeOperations = true
-        cacheEnvironment = true
-        optimizeClassLoading = true
-        deduceEnvironment = true
-        optimizeNetty = true
-    }
 }
 
 
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("io.micronaut:micronaut-jackson-databind"))
+            .using(module("io.micronaut.serde:micronaut-serde-jackson:1.5.3"))
+    }
+}
 
