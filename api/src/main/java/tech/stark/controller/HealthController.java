@@ -11,28 +11,36 @@ import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @Controller("/healthz")
 public class HealthController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HealthController.class);
+
+    private HikariUrlDataSource dataSource;
+
     @Inject
-    public HikariUrlDataSource dataSource;
+    public HealthController(HikariUrlDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Get(uri="/", produces="text/plain")
     public HttpResponse<String> index() {
         MutableHttpResponse<String> response = HttpResponse.ok();
         try {
 
-            PreparedStatement statement = dataSource.getConnection().prepareStatement(dataSource.getConnectionTestQuery());
-            statement.executeQuery().close();
+            dataSource.getConnection()
+                    .prepareStatement(dataSource.getConnectionTestQuery())
+                    .executeQuery();
+
             LOGGER.info("Connection test successful!");
 
         } catch (SQLException e){
             response = HttpResponse.status(HttpStatus.SERVICE_UNAVAILABLE);
-            LOGGER.error("Connection test unsuccessful!\n" +e.getMessage()+"\n"+e.getStackTrace());
+            LOGGER.error("Connection test unsuccessful! " + e.getMessage());
+            LOGGER.error(Arrays.toString(e.getStackTrace()).replace(", ", "\n"));
         } finally {
             response.header(HttpHeaders.CACHE_CONTROL,"no-cache");
         }
