@@ -57,7 +57,7 @@ public class HealthControllerTest {
 
         io.micronaut.http.HttpResponse<String> response = healthController.index(HttpRequest.GET("/healthz"));
         Assertions.assertEquals(HttpStatus.OK, response.status(), "Response code should be 200");
-        Assertions.assertEquals("no-cache", response.getHeaders().get(HttpHeaders.CACHE_CONTROL));
+        Assertions.assertEquals("no-cache, no-store, must-revalidate", response.getHeaders().get(HttpHeaders.CACHE_CONTROL));
     }
 
     /**
@@ -70,6 +70,6 @@ public class HealthControllerTest {
 
         io.micronaut.http.HttpResponse<String> response = healthController.index(HttpRequest.GET("/healthz"));
         Assertions.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, response.status(), "Response code should be 503");
-        Assertions.assertEquals("no-cache", response.getHeaders().get(HttpHeaders.CACHE_CONTROL));
+        Assertions.assertEquals("no-cache, no-store, must-revalidate", response.getHeaders().get(HttpHeaders.CACHE_CONTROL));
     }
 }
